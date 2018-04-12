@@ -89,12 +89,22 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
-  var firstName = promptFor("What is the person's first name?", chars);
+  var firstN = promptFor("What is the person's first name?", chars);
   var lastName = promptFor("What is the person's last name?", chars);
+  let results = [];
+    for (var i = 0; i < data.length; i++) {
+      if (people[i].firstName === firstN && people[i].lastName === lastName) {
+        results.push(people[i]);
+      }
+    }
+    displayPeople(results);
+    }
 
+  
+  
   // TODO: find the person using the name they entered
 
-}
+
 
 // alerts a list of people
 function displayPeople(people){
@@ -127,5 +137,5 @@ function yesNo(input){
 
 // helper function to pass in as default promptFor validation
 function chars(input){
-  return true; // default validation only
+  return input; // default validation only
 }
