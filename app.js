@@ -70,7 +70,7 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    displayPerson(person);
     break;
     case "family":
     // TODO: get person's family
@@ -105,19 +105,32 @@ function searchByName(people){
   // TODO: find the person using the name they entered
 ///not tested///
 function getAge (person) {
-  let birthDate = [person[i].dob];
-  let birthYear = birthDate.slice(-4 -3 -2 -1);
+  let i = data.findIndex(person => person === person);
+  let birthDate = person[i].dob;
   let today = new Date();
-  let curYear = today.getFullYear();
-  let age = curYear - birthYear;
-  return age;
+      var thisYear = 0;
+    if (today.getMonth() < birthDate.getMonth()) {
+        thisYear = 1;
+    } 
+    else if ((today.getMonth() == birthDate.getMonth()) && today.getDate() < birthday.getDate()) {
+        thisYear = 1;
+    }
+    var age = today.getFullYear() - birthDate.getFullYear() - thisYear;
+    return age;
+  // let curYear = today.getFullYear();
+  // let age = curYear - birthYear;
+  // return age;
 }
 
 // retrieve "by blood" family, USE RECURSION//
-function getDescendants (person, people)
+function getDescendants (person, people) {
+
+}
 
 // retrieve immediate family (parents, siblings, current spouse, kids), USE ITERATION//
-function getImFam (person, people)
+function getImFam (person, people) {
+
+}
 
 // alerts a list of people
 function displayPeople(people){
@@ -130,14 +143,15 @@ function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
   let age = getAge(person);
-  var personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "DOB: " + person.dob + "\n";
+  let i = data.findIndex(person => person === person);
+  var personInfo = "First Name: " + person[i].firstName + "\n";
+  personInfo += "Last Name: " + person[i].lastName + "\n";
+  personInfo += "DOB: " + person[i].dob + "\n";
   personInfo += "Age: " + age + "\n";
-  personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight: " + person.weight + "\n";
-  personInfo += "Eye Color: " + person.eyeColor + "\n";
-  personInfo += "Occupation: " + person.occupation + "\n";
+  personInfo += "Height: " + person[i].height + "\n";
+  personInfo += "Weight: " + person[i].weight + "\n";
+  personInfo += "Eye Color: " + person[i].eyeColor + "\n";
+  personInfo += "Occupation: " + person[i].occupation + "\n";
   // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
