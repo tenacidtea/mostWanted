@@ -103,23 +103,18 @@ function searchByName(people){
   
   
   // TODO: find the person using the name they entered
-///not tested///
+
+
+/// tested - functioning ///
 function getAge (person) {
   let i = data.findIndex(person => person === person);
-  let birthDate = person[i].dob;
+  let birthDate = new Date(person[i].dob);
   let today = new Date();
-      var thisYear = 0;
-    if (today.getMonth() < birthDate.getMonth()) {
-        thisYear = 1;
-    } 
-    else if ((today.getMonth() == birthDate.getMonth()) && today.getDate() < birthday.getDate()) {
-        thisYear = 1;
+  let ageYears = (today.getFullYear() - birthDate.getFullYear());
+    if (today.getMonth() < birthDate.getMonth() || today.getMonth() == birthDate.getMonth() && today.getDate() < birthDate.getDate()) {
+      ageYears--;
     }
-    var age = today.getFullYear() - birthDate.getFullYear() - thisYear;
-    return age;
-  // let curYear = today.getFullYear();
-  // let age = curYear - birthYear;
-  // return age;
+  return ageYears;
 }
 
 // retrieve "by blood" family, USE RECURSION//
@@ -134,8 +129,9 @@ function getImFam (person, people) {
 
 // alerts a list of people
 function displayPeople(people){
+  let i = data.findIndex(person => person === person);
   alert(people.map(function(person){
-    return person.firstName + " " + person.lastName;
+    return person[i].firstName + " " + person[i].lastName;
   }).join("\n"));
 }
 
