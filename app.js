@@ -93,6 +93,12 @@ function searchByName(people){
   var lastName = promptFor("What is the person's last name?", chars);
   let results = [];
     for (var i = 0; i < data.length; i++) {
+		alert(people[i].firstName.toLowerCase());
+		alert(firstN.toLowerCase);
+		alert(people[i].lastName.toLowerCase());
+		alert(lastName.toLowerCase);
+		alert(people[i].firstName.toLowerCase() == firstN.toLowerCase);
+		alert(people[i].lastName.toLowerCase() == lastName.toLowerCase);
       if (people[i].firstName === firstN && people[i].lastName === lastName) {
         results.push(people[i]);
       }
