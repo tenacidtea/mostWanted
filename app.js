@@ -1,3 +1,4 @@
+"use strict";
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
@@ -58,7 +59,7 @@ function searchByWeight(people) {
 
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
-
+  let i = data.findIndex(person => person === person);
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
 
   if(!person){
@@ -66,7 +67,7 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
-  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  var displayOption = prompt("Found " + person[i].firstName + " " + person[i].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
@@ -76,7 +77,7 @@ function mainMenu(person, people){
     // TODO: get person's family
     break;
     case "descendants":
-    // TODO: get person's descendants
+    getDescendants(person, people);
     break;
     case "restart":
     app(people); // restart
@@ -119,7 +120,14 @@ function getAge (person) {
 
 // retrieve "by blood" family, USE RECURSION//
 function getDescendants (person, people) {
-
+  let kids = [];
+  let rentId = person[0].id;
+  for (let j = 0; j < people.length; j++) {
+    if (people[j].parents == rentId) {
+      kids.push(people[j].firstName + " " + people[j].lastName)
+    }
+  }
+  console.log(kids);
 }
 
 // retrieve immediate family (parents, siblings, current spouse, kids), USE ITERATION//
