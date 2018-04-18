@@ -10,11 +10,11 @@ function runApp(arrayToBeSearched){
 }
 
 function searchByName(arrayToBeSearched){
-	var firstNameVar = getUserInput("What is the person's first name?", chars);
-	var lastNameVar = getUserInput("What is the person's last name?", chars);
-	var searchByNameResults = [];
+	let firstNameVar = getUserInput("What is the person's first name?", chars);
+	let lastNameVar = getUserInput("What is the person's last name?", chars);
+	let searchByNameResults = [];
 	for (let index = 0; index < arrayToBeSearched.length; index++){
-		if (arrayToBeSearched[index].firstName.toLowerCase() == firstNameVar.toLowerCase() && arrayToBeSearched[index].lastName.toLowerCase() == lastNameVar.toLowerCase()){
+		if (arrayToBeSearched[index].firstName.toLowerCase() === firstNameVar.toLowerCase() && arrayToBeSearched[index].lastName.toLowerCase() === lastNameVar.toLowerCase()){
 			searchByNameResults.push(arrayToBeSearched[index]);
 		}
 	}
