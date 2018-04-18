@@ -78,6 +78,7 @@ function mainMenu(person, people){
     break;
     case "descendants":
     getDescendants(person, people);
+    //displayPeople(list);
     break;
     case "restart":
     app(people); // restart
@@ -125,7 +126,7 @@ function getAge (person) {
 
 function getDescendants (person, people, list) {
   let i = data.findIndex(person => person === person);
-  list = [];
+  list = list || [];
   let desOb = [];
   let rentId = person[i].id;
   for (let j = 0; j < people.length && i < person.length; j++) {
@@ -133,14 +134,18 @@ function getDescendants (person, people, list) {
       list.push(people[j].firstName + " " + people[j].lastName);
       desOb.push(people[j]);
     }
+    if (j === people.length) {
+      i++;
+    }
   }
   getDescendants(desOb, people, list);
 
   console.log(desNames);
+  //return list;
 }
 
-function displayDescendants (){
-
+function displayDescendants (list){
+  alert("")
 }
 // retrieve immediate family (parents, siblings, current spouse, kids), USE ITERATION//
 function getImFam (person, people) {
