@@ -118,18 +118,30 @@ function getAge (person) {
   return ageYears;
 }
 
-// retrieve "by blood" family, USE RECURSION//
-function getDescendants (person, people) {
-  let kids = [];
-  let rentId = person[0].id;
-  for (let j = 0; j < people.length; j++) {
+// retrieve "by blood" family, USE RECURSION to go through desOb array to find grandkids etc.
+
+// TODO: figure out how to move through the indexes of "person" (i++) 
+//issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
+
+function getDescendants (person, people, list) {
+  let i = data.findIndex(person => person === person);
+  list = [];
+  let desOb = [];
+  let rentId = person[i].id;
+  for (let j = 0; j < people.length && i < person.length; j++) {
     if (people[j].parents == rentId) {
-      kids.push(people[j].firstName + " " + people[j].lastName)
+      list.push(people[j].firstName + " " + people[j].lastName);
+      desOb.push(people[j]);
     }
   }
-  console.log(kids);
+  getDescendants(desOb, people, list);
+
+  console.log(desNames);
 }
 
+function displayDescendants (){
+
+}
 // retrieve immediate family (parents, siblings, current spouse, kids), USE ITERATION//
 function getImFam (person, people) {
 
