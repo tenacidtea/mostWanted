@@ -124,8 +124,8 @@ function getAge (person) {
 // TODO: figure out how to move through the indexes of "person" (i++) 
 //issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
 
-function getDescendants (person, people, list) {
-  let i = data.findIndex(person => person === person);
+function getDescendants (person, people, list, index = 0) {
+  let i = index || data.findIndex(person => person === person);
   list = list || [];
   let desOb = [];
   let rentId = person[i].id;
@@ -134,14 +134,12 @@ function getDescendants (person, people, list) {
       list.push(people[j].firstName + " " + people[j].lastName);
       desOb.push(people[j]);
     }
-    if (j === people.length) {
+    if (i < person.length && j == people.length) {
       i++;
     }
-  }
-  getDescendants(desOb, people, list);
-
-  console.log(desNames);
-  //return list;
+}
+getDescendants(desOb, people, list, i);
+console.log(list)
 }
 
 function displayDescendants (list){
