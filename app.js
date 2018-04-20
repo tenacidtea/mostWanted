@@ -31,7 +31,18 @@ function searchByTraits(people) {
     case "weight":
       filteredPeople = searchByWeight(people);
       break;
-    // so on and so forth
+    case "eye color":
+      filteredPeople = searchByEye(people);
+      break;
+    case "gender":
+      filteredPeople = searchByGender(people);
+      break;
+    case "age":
+      filteredPeople = searchByAge(people);
+      break;
+    case "occupation":
+      filteredPeople = searchByJob(people);
+      break;
     default:
       alert("You entered an invalid search type! Please try again.");
       searchByTraits(people);
@@ -44,6 +55,18 @@ function searchByTraits(people) {
 
 }
 
+function searchByHeight(people) {
+  let userInputHeight = prompt("How tall is this person (inches)?");
+
+  let newArray = people.filter(function (el) {
+    if(el.height == userInputHeight) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+  displayFiltered(newArray, people);
+}
+
 function searchByWeight(people) {
   let userInputWeight = prompt("How much does the person weigh?");
 
@@ -53,20 +76,83 @@ function searchByWeight(people) {
     }
     // return true if el.height matches userInputHeight
   });
-
-  return newArray;
+  displayFiltered(newArray, people);
 }
+
+function searchByEye (people) {
+  let userInputEye = prompt("What color eyes does the person have?");
+
+  let newArray = people.filter(function (el) {
+    if(el.eyeColor == userInputEye) {
+      return true;
+    }
+  });
+  displayFiltered(newArray, people);
+}
+
+function searchByGender (people) {
+  let userInputGender = prompt("Is this person a female or a male?");
+
+  let newArray = people.filter(function (el) {
+    if(el.gender == userInputGender) {
+      return true;
+    }
+  });
+  displayFiltered(newArray, people);
+}
+
+function searchByAge (people) {
+  let userInputAge = prompt("How old is this person (in years)?");
+  
+  let newArray = people.filter(function (person) {
+    let age = getAge(person);
+    if(age == userInputAge) {
+      return true;
+    }
+  });
+  displayFiltered(newArray, people);
+}
+
+function searchByJob (people) {
+  let userInputJob = prompt("What is this person's occupation?");
+
+  let newArray = people.filter(function (el) {
+    if(el.occupation == userInputJob) {
+      return true;
+    }
+  });
+  displayFiltered(newArray, people);
+}
+
+function displayFiltered (filteredPpl, people) {
+  if (filteredPpl.length > 1) {
+    let list = filteredPpl.map(function (el) {
+      return " " + el.firstName + " " + el.lastName;
+    })
+    let userInputFirst = prompt("Found" + " " + list + "\n" + "Please enter the FIRST NAME of who you would like to select.");
+    let userInputLast = prompt("Found" + " " + list + "\n" + "Please enter the LAST NAME of who you would like to select.");
+    let filteredPerson = filteredPpl.filter(function(el) {
+      if(el.firstName == userInputFirst && el.lastName == userInputLast){
+        return true;
+      }
+    })
+    mainMenu(filteredPerson, people);
+    }
+  else if (filteredPpl.length == 1) {
+    mainMenu(filteredPpl, people);
+  }
+}
+
 
 // Menu function to call once you find who you are looking for
 function mainMenu(person, people){
-  let i = data.findIndex(person => person === person);
   /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
 
-  if(!person){
+  if(!person.length){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-
+  let i = data.findIndex(person => person === person);
   var displayOption = prompt("Found " + person[i].firstName + " " + person[i].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
@@ -107,7 +193,7 @@ function searchByName(people){
   // TODO: find the person using the name they entered
 
 
-/// tested - functioning ///
+/// tested - functioning /// WHY VIA "INFO" NEED [i], BUT VIA SEARCH BY AGE DOESN'T WORK WITH [i](array)?!
 function getAge (person) {
   let i = data.findIndex(person => person === person);
   let birthDate = new Date(person[i].dob);
@@ -117,6 +203,14 @@ function getAge (person) {
       ageYears--;
     }
   return ageYears;
+
+  // let birthDate = new Date(person.dob);
+  // let today = new Date();
+  // let ageYears = (today.getFullYear() - birthDate.getFullYear());
+  //   if (today.getMonth() < birthDate.getMonth() || today.getMonth() == birthDate.getMonth() && today.getDate() < birthDate.getDate()) {
+  //     ageYears--;
+  //   }
+  // return ageYears;
 }
 
 // retrieve "by blood" family, USE RECURSION to go through desOb array to find grandkids etc.
@@ -130,15 +224,21 @@ function getDescendants (person, people, list, index = 0) {
   let desOb = [];
   let rentId = person[i].id;
   for (let j = 0; j < people.length && i < person.length; j++) {
-    if (people[j].parents == rentId) {
-      list.push(people[j].firstName + " " + people[j].lastName);
-      desOb.push(people[j]);
-    }
-    if (i < person.length && j == people.length) {
-      i++;
+    // if (people[j].parents == rentId) {
+    //   list.push(people[j].firstName + " " + people[j].lastName);
+    //   desOb.push(people[j]);
+    // }
+    desOb = people.filter(function (el) {
+      if (el.id == rentId){
+        return true;
+      }
+    })
+    if (i < person.length && j === people.length) {
+      // i++;
+      getDescendants(desOb, people, list, i++);
     }
 }
-getDescendants(desOb, people, list, i);
+
 console.log(list)
 }
 
@@ -167,8 +267,8 @@ function displayPerson(person){
   personInfo += "Last Name: " + person[i].lastName + "\n";
   personInfo += "DOB: " + person[i].dob + "\n";
   personInfo += "Age: " + age + "\n";
-  personInfo += "Height: " + person[i].height + "\n";
-  personInfo += "Weight: " + person[i].weight + "\n";
+  personInfo += "Height: " + person[i].height + "in" + "\n";
+  personInfo += "Weight: " + person[i].weight + "lbs" + "\n";
   personInfo += "Eye Color: " + person[i].eyeColor + "\n";
   personInfo += "Occupation: " + person[i].occupation + "\n";
   // TODO: finish getting the rest of the information to display
