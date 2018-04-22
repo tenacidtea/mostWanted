@@ -1,3 +1,5 @@
+/// git merge theirs and ours test. This is in sandbox
+
 "use strict";
 /*
 Build all of your functions for displaying and gathering information below (GUI).
