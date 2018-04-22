@@ -1,5 +1,3 @@
-/// test of the merge theirs ours.  Currently in anina branch
-
 "use strict";
 /*
 Build all of your functions for displaying and gathering information below (GUI).
