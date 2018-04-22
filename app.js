@@ -199,18 +199,16 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
-  var firstN = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
+  let firstN = promptFor("What is the person's first name?", chars);
+  let lastName = promptFor("What is the person's last name?", chars);
   let results = [];
-    for (var i = 0; i < data.length; i++) {
-      if (people[i].firstName === firstN && people[i].lastName === lastName) {
+    for (let i = 0; i < people.length; i++){
+      if (people[i].firstName.toLowerCase() === firstN.toLowerCase() && people[i].lastName.toLowerCase() === lastName.toLowerCase()){
         results.push(people[i]);
       }
     }
     mainMenu(results, people);
-    }
-
-  
+}
   
   // TODO: find the person using the name they entered
 
@@ -242,6 +240,18 @@ function getAgeNoI (person) {
 // TODO: figure out how to move through the indexes of "person" (i++) 
 //issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
 
+function getDescendants(person, people, descendants = []){
+  let personId = person.map(pluck => pluck.id);
+  for(let i = 0; i < people.length; i++){
+      if(personId == people[i].parents[0] || personId == people[i].parents[1]){
+          descendants.push(people[i]);
+      }
+  }
+  return getDescendants(person, people, descendants);
+}
+
+
+/*
 function getDescendants (person, people, list, index = 0) {
   let i = index || data.findIndex(person => person === person);
   list = list || [];
@@ -265,6 +275,7 @@ function getDescendants (person, people, list, index = 0) {
 
 console.log(list)
 }
+*/
 
 function displayDescendants (list){
   alert("")
