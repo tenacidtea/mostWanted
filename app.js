@@ -214,7 +214,10 @@ function getAge (person) {
 // retrieve "by blood" family, USE RECURSION to go through desOb array to find grandkids etc.
 
 // TODO: figure out how to move through the indexes of "person" (i++) 
-//issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
+//issue with desNames array having 0 in front -- currently not carrying names over in new iteration
+
+/// Ths is a second line added in sandbox
+/// This line added in sandbox.  Also going to remove empty line below function closing brace.
 
 
 /// testing --patch merge with sandbox.  Also going to remove empty line under closing brace for getAge function.
@@ -227,7 +230,6 @@ function getDescendants(person, people, descendants = []){
     }
     return getDescendants(person, people, descendants);
 }
-
 /*
 function getDescendants (person, people, list, index = 0) {
   let i = index || data.findIndex(person => person === person);
