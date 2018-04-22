@@ -21,39 +21,59 @@ function app(people){
 }
 
 function searchByTraits(people) {
-  let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
-  let filteredPeople;
-
-  switch(userSearchChoice) {
-    case "height":
-      filteredPeople = searchByHeight(people);
-      break;
-    case "weight":
-      filteredPeople = searchByWeight(people);
-      break;
-    case "eye color":
-      filteredPeople = searchByEye(people);
-      break;
-    case "gender":
-      filteredPeople = searchByGender(people);
-      break;
-    case "age":
-      filteredPeople = searchByAge(people);
-      break;
-    case "occupation":
-      filteredPeople = searchByJob(people);
-      break;
-    default:
-      alert("You entered an invalid search type! Please try again.");
-      searchByTraits(people);
-      break;
-  }  
-
+  let searchMethod = prompt("How many traits would you like to search by? Please enter either 1 or 'more'.");
+    switch (true) {
+      case (searchMethod == 1):  
+        let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
+        let filteredPeople = [];
+  
+          switch (userSearchChoice) {
+            case "height":
+              filteredPeople = searchByHeight(people);
+              break;
+            case "weight":
+              filteredPeople = searchByWeight(people);
+              break;
+            case "eye color":
+              filteredPeople = searchByEye(people);
+              break;
+            case "gender":
+              filteredPeople = searchByGender(people);
+              break;
+            case "age":
+              filteredPeople = searchByAge(people);
+              break;
+            case "occupation":
+              filteredPeople = searchByJob(people);
+              break;
+            default:
+              alert("You entered an invalid search type! Please try again.");
+              searchByTraits(people);
+              break;
+          };
+      case (searchMethod == 'more'):
+        searchByMultTraits(people);
+        break;
+      default:
+        alert("You entered an invalid answer. Please try again.");
+        searchByTraits(people);
+        break;  
+    } 
   let foundPerson = filteredPeople[0];
 
-  mainMenu(foundPerson, people);
-
+  return mainMenu(foundPerson, people);
 }
+
+
+function searchByMultTraits (people) {
+  let userTraitChoice = prompt("You can search by Height, Weight, Eye Color, Age, Gender or Occupation. Please enter all traits to search by separated by a comma. Ex: 'age, gender, eye color'.");
+  let searchKeys = [userTraitChoice.split(",")];
+  let searchTraits = prompt("Please enter the" + " " + searchKeys[0] + " of the person you are looking for.");
+  let compareTraits = [];
+  for (let i = 1; i < searchKeys.length; i++) {
+    compareTraits = prompt("Please enter the" + " " + searchKeys[i] + " of the person you are looking for.");
+  }
+  }
 
 function searchByHeight(people) {
   let userInputHeight = prompt("How tall is this person (inches)?");
@@ -87,6 +107,7 @@ function searchByEye (people) {
       return true;
     }
   });
+  // return newArray;
   displayFiltered(newArray, people);
 }
 
@@ -98,14 +119,15 @@ function searchByGender (people) {
       return true;
     }
   });
-  displayFiltered(newArray, people);
+  return newArray;
+  // displayFiltered(newArray, people);
 }
 
 function searchByAge (people) {
   let userInputAge = prompt("How old is this person (in years)?");
   
   let newArray = people.filter(function (person) {
-    let age = getAge(person);
+    let age = getAgeNoI(person);
     if(age == userInputAge) {
       return true;
     }
@@ -203,14 +225,16 @@ function getAge (person) {
       ageYears--;
     }
   return ageYears;
+}
 
-  // let birthDate = new Date(person.dob);
-  // let today = new Date();
-  // let ageYears = (today.getFullYear() - birthDate.getFullYear());
-  //   if (today.getMonth() < birthDate.getMonth() || today.getMonth() == birthDate.getMonth() && today.getDate() < birthDate.getDate()) {
-  //     ageYears--;
-  //   }
-  // return ageYears;
+function getAgeNoI (person) {
+  let birthDate = new Date(person.dob);
+  let today = new Date();
+  let ageYears = (today.getFullYear() - birthDate.getFullYear());
+    if (today.getMonth() < birthDate.getMonth() || today.getMonth() == birthDate.getMonth() && today.getDate() < birthDate.getDate()) {
+      ageYears--;
+    }
+  return ageYears;
 }
 
 // retrieve "by blood" family, USE RECURSION to go through desOb array to find grandkids etc.
