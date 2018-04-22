@@ -89,6 +89,18 @@ function searchByHeight(people) {
   displayFiltered(newArray, people);
 }
 
+function searchByHeight(people) {
+  let userInputHeight = prompt("How tall is this person (inches)?");
+
+  let newArray = people.filter(function (el) {
+    if(el.height == userInputHeight) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+  displayFiltered(newArray, people);
+}
+
 function searchByWeight(people) {
   let userInputWeight = prompt("How much does the person weigh?");
 
