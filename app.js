@@ -217,6 +217,7 @@ function getAge (person) {
 // TODO: figure out how to move through the indexes of "person" (i++) 
 //issue with desNames array having 0 in front -- currently not carrying names over in new iteration
 
+/// Ths is a second line added in sandbox
 /// This line added in sandbox.  Also going to remove empty line below function closing brace.
 
 function getDescendants(person, people, descendants = []){
