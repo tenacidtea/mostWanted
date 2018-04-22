@@ -219,13 +219,13 @@ function getAge (person) {
 
 
 function getDescendants(person, people, descendants = []){
-    let personId = person.map(pluck => pluck.id);
-    for(let i = 0; i < people.length; i++){
-        if(personId == people[i].parents[0] || personId == people[i].parents[1]){
-            descendants.push(people[i]);
-        }
-    }
-    return getDescendants(person, people, descendants);
+  let personId = person.map(pluck => pluck.id);
+  for(let i = 0; i < people.length; i++){
+      if(personId == people[i].parents[0] || personId == people[i].parents[1]){
+          descendants.push(people[i]);
+      }
+  }
+  return getDescendants(person, people, descendants);
 }
 
 /*
