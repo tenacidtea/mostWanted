@@ -99,6 +99,18 @@ function searchByHeight(people) {
   displayFiltered(newArray, people);
 }
 
+function searchByHeight(people) {
+  let userInputHeight = prompt("How tall is this person (inches)?");
+
+  let newArray = people.filter(function (el) {
+    if(el.height == userInputHeight) {
+      return true;
+    }
+    // return true if el.height matches userInputHeight
+  });
+  displayFiltered(newArray, people);
+}
+
 function searchByWeight(people) {
   let userInputWeight = prompt("How much does the person weigh?");
 
@@ -212,6 +224,7 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
+<<<<<<< HEAD
   var firstN = document.getElementById("firstNm").value || null;
   var lastName = document.getElementById("lastName").value || null;
   // let results = [];
@@ -237,6 +250,18 @@ function searchByName(people){
     }
 
   
+=======
+  let firstN = promptFor("What is the person's first name?", chars);
+  let lastName = promptFor("What is the person's last name?", chars);
+  let results = [];
+    for (let i = 0; i < people.length; i++){
+      if (people[i].firstName.toLowerCase() === firstN.toLowerCase() && people[i].lastName.toLowerCase() === lastName.toLowerCase()){
+        results.push(people[i]);
+      }
+    }
+    mainMenu(results, people);
+}
+>>>>>>> 7d171912e45b4a4fc06405468fc410d43e2bf55d
   
   // TODO: find the person using the name they entered
 
@@ -268,6 +293,18 @@ function getAgeNoI (person) {
 // TODO: figure out how to move through the indexes of "person" (i++) 
 //issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
 
+function getDescendants(person, people, descendants = []){
+  let personId = person.map(pluck => pluck.id);
+  for(let i = 0; i < people.length; i++){
+      if(personId == people[i].parents[0] || personId == people[i].parents[1]){
+          descendants.push(people[i]);
+      }
+  }
+  return getDescendants(person, people, descendants);
+}
+
+
+/*
 function getDescendants (person, people, list, index = 0) {
   let i = index || data.findIndex(person => person === person);
   list = list || [];
@@ -291,6 +328,7 @@ function getDescendants (person, people, list, index = 0) {
 
 console.log(list)
 }
+*/
 
 function displayDescendants (list){
   alert("")

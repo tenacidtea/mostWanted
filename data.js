@@ -286,4 +286,4 @@ const data = [
 		"parents": [313207561, 313997561],
 		"currentSpouse": null
 	}
-];
+	];
