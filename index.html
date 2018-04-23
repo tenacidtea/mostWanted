@@ -11,14 +11,14 @@
 
 <form>
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">First Name</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="firstNm" placeholder="First Name">
+    <label class="col-sm-1 col-form-label">First Name</label>
+    <div class="col-sm-3">
+      <input type="text" class="form-control" id="firstName" placeholder="First Name">
     </div>
   </div>
   <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Last Name</label>
-    <div class="col-sm-10">
+    <label class="col-sm-1 col-form-label">Last Name</label>
+    <div class="col-sm-3">
       <input type="text" class="form-control" id="lastName" placeholder="Last Name">
     </div>
   </div>
@@ -27,7 +27,7 @@
     <div class="row">
       <div class="col-sm-4">  
       <select id = "gender" class="custom-select">
-        <option selected>Gender</option>
+        <option selected value="">Gender</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
       </select>
@@ -39,7 +39,7 @@
     <div class="row">
       <div class="col-sm-4">  
       <select id = "eyeColor" class="custom-select">
-        <option selected value="0">Eye Color</option>
+        <option selected value="">Eye Color</option>
         <option value="blue">Blue</option>
         <option value="brown">Brown</option>
         <option value="green">Green</option>
@@ -54,7 +54,7 @@
     <div class="row">
       <div class="col-sm-4">  
       <select id = "occupation" class="custom-select">
-        <option selected value="0">Occupation</option>
+        <option selected value="">Occupation</option>
         <option value="doctor">Doctor</option>
         <option value="assistant">Assistant</option>
         <option value="politician">Politician</option>
@@ -68,21 +68,27 @@
     </div>
   </fieldset>
 
-    <div class="col-sm-2">Checkbox</div>
-    <div class="col-sm-10">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck1">
-        <label class="form-check-label" for="gridCheck1">
-          Example checkbox
-        </label>
-      </div>
-    </div>
-  </div>
   <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Sign in</button>
+    <label class="col-sm-1 col-form-label">Age</label>
+    <div class="col-sm-2">
+      <input type="number" class="form-control" id="age" placeholder="Age">
     </div>
   </div>
+
+  <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Weight</label>
+    <div class="col-sm-2">
+      <input type="number" class="form-control" id="weight" placeholder="Weight">
+    </div>
+  </div>
+
+  <div class="form-group row">
+      <label class="col-sm-1 col-form-label">Height</label>
+    <div class="col-sm-2">
+      <input type="number" class="form-control" id="height" placeholder="Height">
+    </div>
+  </div>
+
 </form>
 
 
