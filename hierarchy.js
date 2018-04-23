@@ -63,6 +63,32 @@
 						"parents": [693243224, 888201200],
 						"currentSpouse": null
 					},
+                                    {
+                                        "id": 677142056,
+                                        "firstName": "Victor",
+                                        "lastName": "Verdev",
+                                        "gender": "male",
+                                        "dob": "10/7/1973",
+                                        "height": 71,
+                                        "weight": 166,
+                                        "eyeColor": "blue",
+                                        "occupation": "truckdriver",
+                                        "parents": [819168108],
+                                        "currentSpouse": null
+                                    },
+                                                    {
+                                                        "id": 677142056,
+                                                        "firstName": "Ellyse",
+                                                        "lastName": "Verdev",
+                                                        "gender": "female",
+                                                        "dob": "10/7/1995",
+                                                        "height": 67,
+                                                        "weight": 115,
+                                                        "eyeColor": "blue",
+                                                        "occupation": "student",
+                                                        "parents": [677142057],
+                                                        "currentSpouse": null
+                                                    },
 					{
 						"id": 313207561,
 						"firstName": "Mattias",

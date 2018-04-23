@@ -197,7 +197,7 @@ function mainMenu(person, people){
     // TODO: get person's family
     break;
     case "descendants":
-    getDescendants(person, people);
+    getDescendants(cullPersonsIds(person), people);
     //displayPeople(list);
     break;
     case "restart":
@@ -252,15 +252,34 @@ function getAgeNoI (person) {
 // TODO: figure out how to move through the indexes of "person" (i++) 
 //issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
 
-function getDescendants(person, people, descendants = []){
-  let personId = person.map(pluck => pluck.id);
-  for(let i = 0; i < people.length; i++){
-      if(personId == people[i].parents[0] || personId == people[i].parents[1]){
-          descendants.push(people[i]);
-      }
-  }
-  return getDescendants(person, people, descendants);
+function cullPersonsIds(persons, idsArray = []){
+  persons.map(function(persons){
+    idsArray.push(persons.id);
+    return;    
+  })
+return (persons, idsArray);
 }
+
+function getDescendants(personsIds, people, descendants = []){
+  let originalLength = personsIds.length;
+  let nextGen = [];
+  for(let j = 0; j < originalLength; j++){
+    for(let i = 0; i < people.length; i++){
+      if(personsIds[0] == people[i].parents[0] || personsIds[0] == people[i].parents[1]){
+        descendants.push(people[i]);
+        nextGen.push(people[i]);
+      }      
+    }
+  personsIds.shift();
+  }
+  if(!nextGen.length){
+    return (descendants);
+  }
+  else{
+  getDescendants(cullPersonsIds(nextGen), people, descendants);      
+  }
+}
+
 
 
 /*
