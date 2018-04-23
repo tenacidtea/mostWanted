@@ -5,9 +5,10 @@ Build all of your functions for displaying and gathering information below (GUI)
 
 // app is the function called to start the entire application
 function app(people){
-  var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  switch(searchType){
-    case 'yes':
+  // var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  // switch(searchType){
+  switch(true) {
+    case document.getElementById("firstName") != "First Name":
     searchByName(people);
     break;
     case 'no':
@@ -37,7 +38,7 @@ function searchByTraits(people) {
             case "eye color":
               filteredPeople = searchByEye(people);
               break;
-            case "gender":
+            case document.getElementById("gender") != 0:
               filteredPeople = searchByGender(people);
               break;
             case "age":
@@ -66,13 +67,24 @@ function searchByTraits(people) {
 
 
 function searchByMultTraits (people) {
-  let userTraitChoice = prompt("You can search by Height, Weight, Eye Color, Age, Gender or Occupation. Please enter all traits to search by separated by a comma. Ex: 'age, gender, eye color'.");
-  let searchKeys = [userTraitChoice.split(",")];
-  let searchTraits = prompt("Please enter the" + " " + searchKeys[0] + " of the person you are looking for.");
-  let compareTraits = [];
-  for (let i = 1; i < searchKeys.length; i++) {
-    compareTraits = prompt("Please enter the" + " " + searchKeys[i] + " of the person you are looking for.");
+  let results = [];
+  let userTraitChoice = prompt("You can search by the following Trait Types: Height, Weight, Eye Color, Age, Gender or Occupation. Please enter a Trait Type. EXAMPLE: 'eye color'. Enter 'done' to stop filtering and get results.");
+  let userSearchValue = prompt("Please enter the " + userTraitChoice + " of the person you are looking for. EX: 'blue'.")
+  // let searchProperties = [userTraitChoice.split(",")];
+  // let searchKey = searchProperties.shift();
+  // let searchValue = searchProperties[1];
+  if (results.length == 0) {
+    results = people.filter(function(el) {
+      return(el[userTraitChoice] == userSearchValue); 
+    });
   }
+  if (results.length > 0) {
+    results.filter(function(el) {
+
+    });
+  }
+  if (userTraitChoice.toLowerCase == "done")
+    mainMenu(results, people);
   }
 
 function searchByHeight(people) {
@@ -124,7 +136,8 @@ function searchByEye (people) {
 }
 
 function searchByGender (people) {
-  let userInputGender = prompt("Is this person a female or a male?");
+  // let userInputGender = prompt("Is this person a female or a male?");
+  let userInputGender = document.getElementById("gender");
 
   let newArray = people.filter(function (el) {
     if(el.gender == userInputGender) {
@@ -159,19 +172,19 @@ function searchByJob (people) {
 }
 
 function displayFiltered (filteredPpl, people) {
+  // let i = data.findIndex(filteredPpl => filteredPpl === filteredPpl);
   if (filteredPpl.length > 1) {
     let list = filteredPpl.map(function (el) {
       return " " + el.firstName + " " + el.lastName;
     })
     let userInputFirst = prompt("Found" + " " + list + "\n" + "Please enter the FIRST NAME of who you would like to select.");
     let userInputLast = prompt("Found" + " " + list + "\n" + "Please enter the LAST NAME of who you would like to select.");
-    let filteredPerson = filteredPpl.filter(function(el) {
-      if(el.firstName == userInputFirst && el.lastName == userInputLast){
-        return true;
-      }
-    })
-    mainMenu(filteredPerson, people);
-    }
+    let filteredPerson = filteredPpl.filter(function(ind) {
+      return ind.firstName == userInputFirst && ind.lastName == userInputLast;
+      });
+        mainMenu(filteredPerson, people);
+  }
+
   else if (filteredPpl.length == 1) {
     mainMenu(filteredPpl, people);
   }
@@ -211,6 +224,33 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
+<<<<<<< HEAD
+  var firstN = document.getElementById("firstNm").value || null;
+  var lastName = document.getElementById("lastName").value || null;
+  // let results = [];
+      if (firstN === null) {
+        let results = people.filter(function (el) {
+          return el.lastName === lastName;
+        });
+        displayFiltered(results, people);
+      }
+      if (lastName === null) {
+        let results = people.filter(function (el) {
+          return el.firstName === firstN;
+        });
+        displayFiltered(results, people);
+      }
+      else if (firstN != null && lastName != null) {
+        let results = people.filter(function (el) {
+          return el.firstName === firstN && el.lastName === lastName;
+        });
+        displayFiltered(results, people);
+      }
+    
+    }
+
+  
+=======
   let firstN = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
   let results = [];
@@ -221,6 +261,7 @@ function searchByName(people){
     }
     mainMenu(results, people);
 }
+>>>>>>> 7d171912e45b4a4fc06405468fc410d43e2bf55d
   
   // TODO: find the person using the name they entered
 
