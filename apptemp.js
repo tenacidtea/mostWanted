@@ -197,7 +197,7 @@ function mainMenu(person, people){
     // TODO: get person's family
     break;
     case "descendants":
-    getDescendants(cullPersonsIds(person), people);
+    getDescendants(person, people);
     //displayPeople(list);
     break;
     case "restart":
@@ -254,19 +254,16 @@ function getAgeNoI (person) {
 
 
 
-function cullPersonsIds(persons){
-  return persons.map(cull => cull.id);
-}
-
-function getDescendants(personsIds, people, descendants = []){
-  for(let j = 0; j < personsIds.length; j++){
+function getDescendants(person, people, descendants = [], peopleIds = []){
+  peopleIds = person.map(pluck => pluck.id);
+  for(let j = 0; j < peopleIds.length; j++){
    for(let i = 0; i < people.length; i++){
-     if(personsIds[j] == people[i].parents[0] || personsIds[j] == people[i].parents[1]){
+     if(peopleIds[j] == people[i].parents[0] || peopleIds[j] == people[i].parents[1]){
        descendants.push(people[i]);
      }
    }
   }
-  getDescendants(cullPersonsIds(descendants), people, descendants);
+  return getDescendants(descendants, people, descendants, peopleIds);
 }
 
 
