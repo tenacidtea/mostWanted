@@ -1,9 +1,5 @@
 "use strict";
-/*
-Build all of your functions for displaying and gathering information below (GUI).
-*/
 
-// app is the function called to start the entire application
 function app(people){
   let searchObj = {
     firstName: document.getElementById("firstName").value,
@@ -15,17 +11,12 @@ function app(people){
     weight: document.getElementById("weight").value,
     height: document.getElementById("height").value,
   };
-  // var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  // switch(searchType){
   switch(true) {
     case searchObj.firstName != "":
     searchByName(people, searchObj, people);
     break;
     case searchObj.lastName != "":
     searchByName(people, searchObj, people);
-    // case 'no':
-    // searchByTraits(people);
-    // break;
     default:
     searchByTraits(people, searchObj, people);
     break;
@@ -33,12 +24,7 @@ function app(people){
 }
 
 function searchByTraits(people, searchObj, completeData) {
-  // let searchMethod = prompt("How many traits would you like to search by? Please enter either 1 or 'more'.");
-  //   switch (true) {
-  //     case (searchMethod == 1):  
-  //       let userSearchChoice = prompt("What would you like to search by? 'height', 'weight', 'eye color', 'gender', 'age', 'occupation'.");
         let filteredPeople = [];
-  
           switch (true) {
             case searchObj.height != "":
               filteredPeople = searchByHeight(people, searchObj, completeData);
@@ -58,45 +44,9 @@ function searchByTraits(people, searchObj, completeData) {
             case searchObj.occupation != "":
               filteredPeople = searchByJob(people, searchObj, completeData);
               break;
-            // default:
-            //   alert("You entered an invalid search type! Please try again.");
-            //   searchByTraits(people);
-            //   break;
           };
-      // case (searchMethod == 'more'):
-      //   searchByMultTraits(people);
-      //   break;
-    //   default:
-    //     alert("You entered an invalid answer. Please try again.");
-    //     searchByTraits(people);
-    //     break;  
-    // } 
-  // let foundPerson = filteredPeople[0];
-
   return displayFiltered(people, searchObj, completeData);
 }
-
-
-function searchByMultTraits (people) {
-  let results = [];
-  let userTraitChoice = prompt("You can search by the following Trait Types: Height, Weight, Eye Color, Age, Gender or Occupation. Please enter a Trait Type. EXAMPLE: 'eye color'. Enter 'done' to stop filtering and get results.");
-  let userSearchValue = prompt("Please enter the " + userTraitChoice + " of the person you are looking for. EX: 'blue'.")
-  // let searchProperties = [userTraitChoice.split(",")];
-  // let searchKey = searchProperties.shift();
-  // let searchValue = searchProperties[1];
-  if (results.length == 0) {
-    results = people.filter(function(el) {
-      return(el[userTraitChoice] == userSearchValue); 
-    });
-  }
-  if (results.length > 0) {
-    results.filter(function(el) {
-
-    });
-  }
-  if (userTraitChoice.toLowerCase == "done")
-    mainMenu(results, people);
-  }
 
 function searchByHeight(people, searchObj, completeData) {
   let userInputHeight = searchObj.height;
@@ -162,17 +112,20 @@ function searchByJob (people, searchObj, completeData) {
 }
 
 function displayFiltered (people, searchObj, completeData) {
-  // let i = data.findIndex(filteredPpl => filteredPpl === filteredPpl);
   if (people.length > 1) {
     let list = people.map(function (el) {
       return " " + el.firstName + " " + el.lastName;
     })
-    let userInputFirst = prompt("Found" + " " + list + "\n" + "Please enter the FIRST NAME of who you would like to select.");
-    let userInputLast = prompt("Found" + " " + list + "\n" + "Please enter the LAST NAME of who you would like to select.");
+    let userInputFirst = prompt("Found" + " " + list + "\n" + "Please ENTER THE *FIRST NAME* of who you would like to select.");
+    let userInputLast = prompt("Found" + " " + list + "\n" + "Please ENTER THE *LAST NAME* of who you would like to select.");
+    if(userInputLast == null || userInputFirst == null){
+      alert("Entered information does not match any of the people found.  Please try again.")
+      displayFiltered(people, searchObj, completeData);
+    }
     let filteredPerson = people.filter(function(ind) {
-      return ind.firstName == userInputFirst && ind.lastName == userInputLast;
+      return ind.firstName.toLowerCase() == userInputFirst.toLowerCase() && ind.lastName.toLowerCase() == userInputLast.toLowerCase();
       });
-        mainMenu(filteredPerson, people);
+        mainMenu(filteredPerson, completeData);
   }
 
   else if (people.length == 1) {
@@ -180,18 +133,18 @@ function displayFiltered (people, searchObj, completeData) {
   }
 }
 
-
-// Menu function to call once you find who you are looking for
-function mainMenu(person, people){
-  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-
+function mainMenu(person, people, completeData){
   if(!person.length){
     alert("Could not find that individual.");
-    return app(people); // restart
+    return app(people);
   }
   let i = data.findIndex(person => person === person);
   var displayOption = prompt("Found " + person[i].firstName + " " + person[i].lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
+      if(displayOption == null){
+      alert("Entered information is not valid.  Please try again.")
+      mainMenu(person, people, completeData);
+    }
+  displayOption = displayOption.toLowerCase();
   switch(displayOption){
     case "info":
     displayPerson(person);
@@ -201,62 +154,45 @@ function mainMenu(person, people){
     break;
     case "descendants":
     getDescendants(cullPersonsIds(person), people);
-    //displayPeople(list);
     break;
     case "restart":
-    app(people); // restart
+    app(people); 
     break;
     case "quit":
-    return;
-    break; // stop execution
+    break; 
     default:
-    return mainMenu(person, people); // ask again
+    return mainMenu(person, people); 
   }
 }
 
 function searchByName(people, searchObj, completeData){
   var firstN = searchObj.firstName;
   var lastName = searchObj.lastName;
-  // let results = [];
       if (firstN === "") {
         let results = people.filter(function (el) {
-          return el.lastName === lastName;
+          return el.lastName.toLowerCase() === lastName.toLowerCase();
         });
+        searchObj.lastName = "";
         searchByTraits(results, searchObj, people);
       }
       if (lastName === "") {
         let results = people.filter(function (el) {
-          return el.firstName === firstN;
+          return el.firstName.toLowerCase() === firstN.toLowerCase();
         });
+        searchObj.firstName = "";
         searchByTraits(results, searchObj, people);
       }
-      else if (firstN != null && lastName != null) {
+      else if (firstN != "" && lastName != "") {
         let results = people.filter(function (el) {
-          return el.firstName === firstN && el.lastName === lastName;
+          return el.firstName.toLowerCase() === firstN.toLowerCase() && el.lastName.toLowerCase() === lastName.toLowerCase();
         });
+        searchObj.firstName = "";
+        searchObj.lastName = "";
         searchByTraits(results, searchObj, people);
       }
     
     }
 
-  
-// WHAT'S THIS?
-//   let firstN = promptFor("What is the person's first name?", chars);
-//   let lastName = promptFor("What is the person's last name?", chars);
-//   let results = [];
-//     for (let i = 0; i < people.length; i++){
-//       if (people[i].firstName.toLowerCase() === firstN.toLowerCase() && people[i].lastName.toLowerCase() === lastName.toLowerCase()){
-//         results.push(people[i]);
-//       }
-//     }
-//     mainMenu(results, people);
-// }
-
-  
-  // TODO: find the person using the name they entered
-
-
-/// tested - functioning /// WHY VIA "INFO" NEED [i], BUT VIA SEARCH BY AGE DOESN'T WORK WITH [i](array)?!
 function getAge (person) {
   let i = data.findIndex(person => person === person);
   let birthDate = new Date(person[i].dob);
@@ -277,11 +213,6 @@ function getAgeNoI (person) {
     }
   return ageYears;
 }
-
-// retrieve "by blood" family, USE RECURSION to go through desOb array to find grandkids etc.
-
-// TODO: figure out how to move through the indexes of "person" (i++) 
-//issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
 
 function cullPersonsIds(persons, idsArray = []){
   persons.map(function(persons){
@@ -311,59 +242,110 @@ function getDescendants(personsIds, people, descendants = []){
   }
 }
 
-// retrieve immediate family (parents, siblings, current spouse, kids), USE ITERATION//
-function getImFam (person, people) {
-let i = data.findIndex(person => person === person);
-let family = {};
-family["parents"] = people.filter(function(el) {
+function getParents (person, people) {
+  let i = data.findIndex(person => person === person);
+  let parents = people.filter(function(el) {
   return person[i].parents[0] == el.id || person[i].parents[1] == el.id;
 });
-  if (family.parents.length === 0) {
-    family.parents = "Not available."
-  }
-  if(family.parents == "Not available."){
-      family["siblings"] = "Not available.";
-  }
-  else {
-    family["siblings"] = people.filter(function(el) {
-  for (let j = 0; j < family.parents.length; j++) {
-    if (family.parents[j] == el.parents[0] || family.parents[j] == el.parents[1]) {
-      return true;
+    if (parents.length === 0) {
+      parents = "Not available."
+    }
+    else {
+    parents = parents.map(function (el) {
+      return el.firstName + " " + el.lastName;
+    })
+    }
+  return parents;
+}
+
+function getSiblings (person, people) {
+    let i = data.findIndex(person => person === person);
+    let siblings = people.filter(function(el) {
+  for (let j = 0; j < person[i].parents.length; j++) {
+    if (person[i].parents[j] == el.parents[0] || person[i].parents[j] == el.parents[1]) {
+      return " " + el.firstName + " " + el.lastName;;
     }
   }
   });
+    if (siblings.length === 0) {
+      siblings = "Not available"
+    }
+    else if (siblings.length > 0) {
+      siblings = siblings.filter(function(el) {
+        return el.id != person[i].id;
+      })
+      siblings = siblings.map(function (el) {
+      return el.firstName + " " + el.lastName;
+    });
+    }
+
+
+  return siblings;
+}
+
+function getSpouse (person, people) {
+  let i = data.findIndex(person => person === person);
+  let spouse;
+  if (person[i].spouse = null) {
+  spouse = "None";
   }
-
-family["spouse"] = person[i].currentSpouse;
-if (family.spouse = null) {
-  family.spouse = "None"
+  else spouse = people.filter(function(el) {
+    return person[i].currentSpouse == el.id;
+});
+  if (spouse != "None") {
+  spouse = spouse.map(function (el) {
+      return el.firstName + " " + el.lastName;
+    });
+  }
+return spouse; 
 }
-else {
-  
-}
 
-
-family["kids"] = people.filter(function(el) {
+function getKids (person, people) {
+  let i = data.findIndex(person => person === person);
+  let kids = people.filter(function(el) {
   return el.parents[0] == person[i].id || el.parents[1] == person[i].id;
 })
-
+    if (kids.length === 0) {
+      kids = "None"
+    }
+    else {
+    kids = kids.map(function (el) {
+      return el.firstName + " " + el.lastName;
+    })
+    }
+  return kids;
 }
 
-function displayImFam(person, parents, ) {
+function getImFam (person, people) {
+let i = data.findIndex(person => person === person);
+let family = {};
+family["parents"] = getParents(person, people);
+family["siblings"] = getSiblings(person, people);
+family["spouse"] = getSpouse (person, people);
+family["kids"] = getKids (person, people);
+displayImFam(person, family);
+}
 
+function displayImFam(person, family) {
+  let imFamInfo = "Parents: " + family.parents + "\n";
+  imFamInfo += "Siblings: " + family.siblings + "\n";
+  imFamInfo += "Spouse: " + family.spouse + "\n";
+  imFamInfo += "Children: " + family.kids + "\n";
+  alert(imFamInfo);
 }
 
 function displayPeople (list){
+  if(list.length == 0){
+    alert("Could not find any descendants.");
+  }
+  else{
   alert(list.map(function(person){
     return person.firstName + " " + person.lastName;
   }).join("\n"));
+  }
 }
 
-
-
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
   let age = getAge(person);
   let i = data.findIndex(person => person === person);
   var personInfo = "First Name: " + person[i].firstName + "\n";
@@ -374,11 +356,9 @@ function displayPerson(person){
   personInfo += "Weight: " + person[i].weight + "lbs" + "\n";
   personInfo += "Eye Color: " + person[i].eyeColor + "\n";
   personInfo += "Occupation: " + person[i].occupation + "\n";
-  // TODO: finish getting the rest of the information to display
   alert(personInfo);
 }
 
-// function that prompts and validates user input
 function promptFor(question, valid){
   do{
     var response = prompt(question).trim();
@@ -386,12 +366,10 @@ function promptFor(question, valid){
   return response;
 }
 
-// helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
-// helper function to pass in as default promptFor validation
 function chars(input){
-  return input; // default validation only
+  return input; 
 }
