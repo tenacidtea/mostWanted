@@ -19,15 +19,15 @@ function app(people){
   // switch(searchType){
   switch(true) {
     case searchObj.firstName != "":
-    searchByName(people, searchObj);
+    searchByName(people, searchObj, people);
     break;
     case searchObj.lastName != "":
-    searchByName(people, searchObj);
+    searchByName(people, searchObj, people);
     // case 'no':
     // searchByTraits(people);
     // break;
     default:
-    searchByTraits(people, searchObj);
+    searchByTraits(people, searchObj, people);
     break;
   }
 }
@@ -197,10 +197,10 @@ function mainMenu(person, people){
     displayPerson(person);
     break;
     case "family":
-    // TODO: get person's family
+    getImFam (person, people);
     break;
     case "descendants":
-    getDescendants(person, people);
+    getDescendants(cullPersonsIds(person), people);
     //displayPeople(list);
     break;
     case "restart":
@@ -214,27 +214,27 @@ function mainMenu(person, people){
   }
 }
 
-function searchByName(people){
-  var firstN = document.getElementById("firstNm").value || null;
-  var lastName = document.getElementById("lastName").value || null;
+function searchByName(people, searchObj, completeData){
+  var firstN = searchObj.firstName;
+  var lastName = searchObj.lastName;
   // let results = [];
-      if (firstN === null) {
+      if (firstN === "") {
         let results = people.filter(function (el) {
           return el.lastName === lastName;
         });
-        displayFiltered(results, people);
+        searchByTraits(results, searchObj, people);
       }
-      if (lastName === null) {
+      if (lastName === "") {
         let results = people.filter(function (el) {
           return el.firstName === firstN;
         });
-        displayFiltered(results, people);
+        searchByTraits(results, searchObj, people);
       }
       else if (firstN != null && lastName != null) {
         let results = people.filter(function (el) {
           return el.firstName === firstN && el.lastName === lastName;
         });
-        displayFiltered(results, people);
+        searchByTraits(results, searchObj, people);
       }
     
     }
@@ -283,58 +283,83 @@ function getAgeNoI (person) {
 // TODO: figure out how to move through the indexes of "person" (i++) 
 //issue with desNames array having 0 in front -- currently not carrying names over in new iteration 
 
-function getDescendants(person, people, descendants = []){
-  let personId = person.map(pluck => pluck.id);
-  for(let i = 0; i < people.length; i++){
-      if(personId == people[i].parents[0] || personId == people[i].parents[1]){
-          descendants.push(people[i]);
-      }
-  }
-  return getDescendants(person, people, descendants);
+function cullPersonsIds(persons, idsArray = []){
+  persons.map(function(persons){
+    idsArray.push(persons.id);
+    return;    
+  })
+return (persons, idsArray);
 }
 
-
-/*
-function getDescendants (person, people, list, index = 0) {
-  let i = index || data.findIndex(person => person === person);
-  list = list || [];
-  let desOb = [];
-  let rentId = person[i].id;
-  for (let j = 0; j < people.length && i < person.length; j++) {
-    // if (people[j].parents == rentId) {
-    //   list.push(people[j].firstName + " " + people[j].lastName);
-    //   desOb.push(people[j]);
-    // }
-    desOb = people.filter(function (el) {
-      if (el.id == rentId){
-        return true;
-      }
-    })
-    if (i < person.length && j === people.length) {
-      // i++;
-      getDescendants(desOb, people, list, i++);
+function getDescendants(personsIds, people, descendants = []){
+  let originalLength = personsIds.length;
+  let nextGen = [];
+  for(let j = 0; j < originalLength; j++){
+    for(let i = 0; i < people.length; i++){
+      if(personsIds[0] == people[i].parents[0] || personsIds[0] == people[i].parents[1]){
+        descendants.push(people[i]);
+        nextGen.push(people[i]);
+      }      
     }
+  personsIds.shift();
+  }
+  if(!nextGen.length){
+    displayPeople (descendants);
+  }
+  else{
+  getDescendants(cullPersonsIds(nextGen), people, descendants);
+  }
 }
 
-console.log(list)
-}
-*/
-
-function displayDescendants (list){
-  alert("")
-}
 // retrieve immediate family (parents, siblings, current spouse, kids), USE ITERATION//
 function getImFam (person, people) {
+let i = data.findIndex(person => person === person);
+let family = {};
+family["parents"] = people.filter(function(el) {
+  return person[i].parents[0] == el.id || person[i].parents[1] == el.id;
+});
+  if (family.parents.length === 0) {
+    family.parents = "Not available."
+  }
+  if(family.parents == "Not available."){
+      family["siblings"] = "Not available.";
+  }
+  else {
+    family["siblings"] = people.filter(function(el) {
+  for (let j = 0; j < family.parents.length; j++) {
+    if (family.parents[j] == el.parents[0] || family.parents[j] == el.parents[1]) {
+      return true;
+    }
+  }
+  });
+  }
+
+family["spouse"] = person[i].currentSpouse;
+if (family.spouse = null) {
+  family.spouse = "None"
+}
+else {
+  
+}
+
+
+family["kids"] = people.filter(function(el) {
+  return el.parents[0] == person[i].id || el.parents[1] == person[i].id;
+})
 
 }
 
-// alerts a list of people
-function displayPeople(people){
-  let i = data.findIndex(person => person === person);
-  alert(people.map(function(person){
-    return person[i].firstName + " " + person[i].lastName;
+function displayImFam(person, parents, ) {
+
+}
+
+function displayPeople (list){
+  alert(list.map(function(person){
+    return person.firstName + " " + person.lastName;
   }).join("\n"));
 }
+
+
 
 function displayPerson(person){
   // print all of the information about a person:
